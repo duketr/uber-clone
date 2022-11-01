@@ -1,21 +1,19 @@
-import { View, Text, StyleSheet, Pressable, Alert, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Pressable, Alert, Dimensions, SafeAreaView } from "react-native";
 import MapView from "react-native-maps";
 import Button from "../components/ui/Button";
+import { useNavigation } from "@react-navigation/native";
+import { GlobalStyles } from "../constants/styles";
 
-function HomeScreen() {
 
+function HomeScreen({navigation}) {
+    function tripBookingButtonHandler() {
+        console.log('Pressing this button')
+    }
     
     return (
-    // <View>
-    //     <Text>This is the Home Screen</Text>
-    //     <Pressable style={styles.button} onPress={HomeScreen}>
-    //         <Text>Press me</Text>
-    //     </Pressable>
-        
-    // </View>
-        <>
-            <View style={styles.container}>
-                <MapView 
+        <SafeAreaView style={styles.outerContainer}>
+            <View style={styles.innerContainer}>
+                <MapView
                 provider="google"
                 style={styles.map}
                 initialRegion={{
@@ -26,12 +24,12 @@ function HomeScreen() {
                 }}
                 showsUserLocation={true}
                 />
+                <View style={styles.buttonContainer}>
+                    <Button onPress={() => navigation.navigate('TripOptions')}>Book A Trip</Button>
+                </View>
             </View>
-            <View style={styles.buttonContainer}>
-                {/* <Text>Testing</Text> */}
-                <Button>Hello</Button>
-            </View>
-        </>
+            
+        </SafeAreaView>
     );
 }
 
@@ -43,17 +41,19 @@ const styles = StyleSheet.create({
         padding: 16,
         margin: 20
     },
-    container: {
+    outerContainer: {
+        flex: 1,
+        backgroundColor: '#rgba(0,0,0,0)'
+    },
+    innerContainer: {
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
         position: 'relative'
     },
     buttonContainer: {
-        flex: 0.5,
-        alignItems: 'center',
-        justifyContent: 'center'
+        position: 'absolute',
+        bottom: (Dimensions.get('window').height)/12
     },
     map: {
         width: Dimensions.get('window').width,
